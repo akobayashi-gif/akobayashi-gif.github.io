@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A.Kショップ | 会社案内</title>
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'Yu Gothic', sans-serif;
+      color: #1a1a2e;
+      background: #fff;
+      line-height: 1.8;
+    }
+
+    /* ─── Color Variables ─── */
+    :root {
+      --navy:   #1c2a3a;
+      --blue:   #2c3e5a;
+      --accent: #f5c200;
+      --light:  #fffbea;
+      --text:   #2a2a2a;
+      --muted:  #6b7280;
+      --white:  #ffffff;
+    }
+
+    /* ─── Nav ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(28, 42, 58, 0.96);
+      backdrop-filter: blur(8px);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      color: var(--white);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── Hero ─── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1c2a3a 0%, #2c4a6a 50%, #1c3a50 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 80px 5% 60px;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(200,168,75,0.08) 0%, transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.04) 0%, transparent 50%);
+    }
+    .hero-inner { position: relative; max-width: 800px; }
+    .hero-label {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(200,168,75,0.5);
+      padding: 4px 16px;
+      border-radius: 20px;
+    }
+    .hero-title {
+      color: var(--white);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.2rem;
+    }
+    .hero-title span { color: var(--accent); }
+    .hero-subtitle {
+      color: rgba(255,255,255,0.75);
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      display: block;
+      color: var(--accent);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1;
+    }
+    .stat-label {
+      display: block;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      margin-top: 6px;
+    }
+
+    /* ─── Section commons ─── */
+    section { padding: 90px 5%; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #b8900a;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .section-lead {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 3rem;
+    }
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: var(--accent);
+      margin-bottom: 2.5rem;
+      border-radius: 2px;
+    }
+
+    /* ─── Overview ─── */
+    #overview { background: var(--light); }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #dde3f0;
+      border: 1px solid #dde3f0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .overview-row {
+      display: contents;
+    }
+    .ov-label {
+      background: var(--navy);
+      color: rgba(255,255,255,0.9);
+      padding: 18px 24px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+    }
+    .ov-value {
+      background: var(--white);
+      color: var(--text);
+      padding: 18px 24px;
+      font-size: 0.95rem;
+    }
+
+    /* ─── Business ─── */
+    #business { background: var(--white); }
+    .biz-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .biz-card {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 2rem 1.8rem;
+      border-left: 4px solid var(--accent);
+    }
+    .biz-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.7rem;
+    }
+    .biz-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* ─── Philosophy ─── */
+    #philosophy {
+      background: linear-gradient(135deg, #f5c200 0%, #f0a800 100%);
+      color: var(--white);
+    }
+    #philosophy .section-title { color: var(--navy); }
+    #philosophy .section-tag { color: var(--navy); opacity: 0.7; }
+    #philosophy .divider { background: var(--navy); }
+    .philosophy-quote {
+      background: rgba(255,255,255,0.45);
+      border-left: 4px solid var(--navy);
+      border-radius: 0 12px 12px 0;
+      padding: 2rem 2.4rem;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      line-height: 2;
+      color: var(--navy);
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+    .philosophy-body {
+      font-size: 0.95rem;
+      line-height: 2;
+      color: rgba(28,42,58,0.85);
+    }
+
+    /* ─── Timeline ─── */
+    #profile { background: var(--light); }
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--blue));
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-left: 1.5rem;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -2.4rem;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--white);
+    }
+    .tl-year {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 2px;
+    }
+    .tl-desc {
+      font-size: 0.98rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ─── Partners ─── */
+    #partners { background: var(--white); }
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .partner-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      font-size: 0.88rem;
+      color: var(--text);
+      font-weight: 500;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .partner-card:hover {
+      box-shadow: 0 4px 16px rgba(15,35,86,0.1);
+      border-color: var(--accent);
+    }
+    .partner-card::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ─── Contact / CTA ─── */
+    #contact {
+      background: var(--navy);
+      text-align: center;
+      padding: 80px 5%;
+    }
+    #contact .section-tag { color: var(--accent); }
+    #contact .section-title { color: var(--white); margin-bottom: 1rem; }
+    #contact p { color: rgba(255,255,255,0.7); margin-bottom: 2rem; }
+    .contact-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem 3rem;
+      margin-top: 2rem;
+    }
+    .contact-item {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.92rem;
+    }
+    .contact-item strong {
+      display: block;
+      color: var(--accent);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      margin-bottom: 4px;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      background: #080f2a;
+      text-align: center;
+      padding: 24px 5%;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 640px) {
+      .overview-grid { grid-template-columns: 1fr; }
+      .ov-label { background: var(--navy); }
+      .nav-links { display: none; }
+      .hero-stats { gap: 1.5rem; }
+      #profile .section-inner > div { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <a class="nav-logo" href="#hero">A.<span>K</span>ショップ</a>
+  <ul class="nav-links">
+    <li><a href="#overview">事業概要</a></li>
+    <li><a href="#business">事業内容</a></li>
+    <li><a href="#philosophy">会社理念</a></li>
+    <li><a href="#profile">代表プロフィール</a></li>
+    <li><a href="#partners">主要取り扱いメーカー</a></li>
+    <li><a href="contact.html">お問い合わせ</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ── -->
+<section id="hero">
+  <div class="hero-inner">
+    <span class="hero-label">Company Profile</span>
+    <h1 class="hero-title">A.<span>K</span>ショップ</h1>
+    <p class="hero-subtitle">
+      素晴らしい商品を通じて、一人でも多くの方の生活を豊かに。<br>
+      メーカー様の想いを大切に、誠実な取引を続けてまいります。
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number">1,634<small style="font-size:1rem">万円</small></span>
+        <span class="stat-label">年商（2025年実績）</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">80<small style="font-size:1rem">社以上</small></span>
+        <span class="stat-label">取引先実績</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">2023<small style="font-size:1rem">年</small></span>
+        <span class="stat-label">創業</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Overview ── -->
+<section id="overview">
+  <div class="section-inner">
+    <span class="section-tag">Company Overview</span>
+    <h2 class="section-title">事業概要</h2>
+    <div class="divider"></div>
+    <div class="overview-grid">
+      <div class="ov-label">屋号</div>
+      <div class="ov-value">A.Kショップ</div>
+      <div class="ov-label">所在地</div>
+      <div class="ov-value">〒198-0052 東京都青梅市長淵2丁目814-1 102</div>
+      <div class="ov-label">設立</div>
+      <div class="ov-value">2024年6月5日</div>
+      <div class="ov-label">代表者</div>
+      <div class="ov-value">小林 敦貴</div>
+      <div class="ov-label">年商</div>
+      <div class="ov-value">1,634万円（2025年実績）</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Business ── -->
+<section id="business">
+  <div class="section-inner">
+    <span class="section-tag">Business</span>
+    <h2 class="section-title">事業内容</h2>
+    <div class="divider"></div>
+    <p class="section-lead">Amazonをはじめとするオンラインプラットフォームを活用し、幅広いカテゴリの商品を販売しています。</p>
+    <div class="biz-cards">
+      <div class="biz-card">
+        <h3>販売チャネル</h3>
+        <p>Amazon・フリマサイト等のオンラインプラットフォームにて、幅広いお客様へ商品をお届けしています。</p>
+      </div>
+      <div class="biz-card">
+        <h3>取扱カテゴリ</h3>
+        <p>家電・パソコン周辺機器、美容品、日用雑貨、食品等、多岐にわたるカテゴリの商品を取り扱っています。</p>
+      </div>
+      <div class="biz-card">
+        <h3>販売スタイル</h3>
+        <p>メーカー様・卸様から仕入れた商品を適正価格で販売。ブランドイメージを損なわない誠実な販売を徹底しています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Philosophy ── -->
+<section id="philosophy">
+  <div class="section-inner">
+    <span class="section-tag">Philosophy</span>
+    <h2 class="section-title">会社理念</h2>
+    <div class="divider"></div>
+    <div class="philosophy-quote">
+      「一人でも多くの方が少しでも生活が豊かになるように、<br>
+      素晴らしい商品を提供する」
+    </div>
+    <p class="philosophy-body">
+      すべてのお客さまに商品を通じて「喜び」と「満足」と「感動」を提供できる企業を目指します。<br><br>
+      どのような商品でも必ずどこかに必要としている人がいると考えているので、そのような方たちに商品をお届けできるよう日々努力しています。<br><br>
+      メーカー様の想いを大切に、ブランドイメージを崩さないよう商品を販売し、末永いお付き合いをしていきたいと考えています。
+    </p>
+  </div>
+</section>
+
+<!-- ── Profile ── -->
+<section id="profile">
+  <div class="section-inner">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; flex-wrap:wrap;">
+      <div>
+        <span class="section-tag">Representative Profile</span>
+        <h2 class="section-title">代表プロフィール</h2>
+        <div class="divider"></div>
+        <p class="section-lead">代表 小林 敦貴 の略歴</p>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">2013年 3月</div>
+            <div class="tl-desc">京都産業大学 卒業</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2013年 4月</div>
+            <div class="tl-desc">大手機械系商社へ入社</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2024年 6月</div>
+            <div class="tl-desc">A.Kショップ 立ち上げ</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2025年 3月</div>
+            <div class="tl-desc">大手機械系商社を退職・独立</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <span class="section-tag">History</span>
+        <h2 class="section-title">沿革</h2>
+        <div class="divider"></div>
+        <p class="section-lead">会社の歩み</p>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">2023年 4月</div>
+            <div class="tl-desc">A.K商店を設立</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2024年 6月</div>
+            <div class="tl-desc">A.Kショップに屋号変更</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2025年 3月</div>
+            <div class="tl-desc">代表が専業として独立、事業を本格化</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Partners ── -->
+<section id="partners">
+  <div class="section-inner">
+    <span class="section-tag">Manufacturers</span>
+    <h2 class="section-title">主要取り扱いメーカー</h2>
+    <div class="divider"></div>
+    <p class="section-lead">現在80社以上のメーカー様・仕入先様とお取引しております。以下はその一部です。</p>
+    <div class="partners-grid">
+      <div class="partner-card">クロバー株式会社</div>
+      <div class="partner-card">株式会社イガラシ</div>
+      <div class="partner-card">株式会社パイン・クリエイト</div>
+      <div class="partner-card">株式会社カミオジャパン</div>
+      <div class="partner-card">株式会社LIHIT LAB.</div>
+      <div class="partner-card">株式会社イースマイル</div>
+      <div class="partner-card">株式会社小川生薬</div>
+      <div class="partner-card">株式会社サンクラフト</div>
+      <div class="partner-card">サナダ精工株式会社</div>
+      <div class="partner-card">三英貿易株式会社</div>
+      <div class="partner-card">和平フレイズ株式会社</div>
+      <div class="partner-card">日本サニパック株式会社</div>
+    </div>
+    <p style="margin-top:1.5rem; font-size:0.85rem; color:var(--muted); text-align:center;">※上記は主要メーカー様の一部掲載です。その他多数のメーカー様・卸様とお取引しております。</p>
+  </div>
+</section>
+
+<!-- ── Contact ── -->
+<section id="contact">
+  <div class="section-inner">
+    <span class="section-tag">Contact</span>
+    <h2 class="section-title">お問い合わせ</h2>
+    <p>新規取引・商品仕入れに関するご相談はお気軽にご連絡ください。</p>
+    <div class="contact-info">
+      <div class="contact-item">
+        <strong>屋号</strong>
+        A.Kショップ
+      </div>
+      <div class="contact-item">
+        <strong>代表者</strong>
+        小林 敦貴
+      </div>
+      <div class="contact-item">
+        <strong>所在地</strong>
+        〒198-0052 東京都青梅市長淵2丁目814-1 102
+      </div>
+      <div class="contact-item">
+        <strong>電話番号</strong>
+        0428-28-0978
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>&copy; 2024 A.Kショップ All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

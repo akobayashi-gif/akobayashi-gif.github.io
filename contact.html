@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A.Kショップ | お問い合わせ</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'Yu Gothic', sans-serif;
+      color: #2a2a2a;
+      background: #fff;
+      line-height: 1.8;
+    }
+
+    :root {
+      --navy:   #1c2a3a;
+      --accent: #f5c200;
+      --light:  #fffbea;
+      --text:   #2a2a2a;
+      --muted:  #6b7280;
+      --white:  #ffffff;
+      --border: #e5e7eb;
+      --error:  #dc2626;
+      --success:#16a34a;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(28, 42, 58, 0.96);
+      backdrop-filter: blur(8px);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      color: var(--white);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a.active { color: var(--accent); }
+
+    /* ── Page Header ── */
+    .page-header {
+      background: linear-gradient(135deg, #1c2a3a 0%, #2c4a6a 50%, #1c3a50 100%);
+      padding: 120px 5% 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(245,194,0,0.1) 0%, transparent 60%);
+    }
+    .page-header h1 {
+      position: relative;
+      color: var(--white);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+    .page-header p {
+      position: relative;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.95rem;
+    }
+    .page-header .accent-bar {
+      width: 48px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 1rem auto 0;
+    }
+
+    /* ── Main Layout ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 5% 80px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* ── Form ── */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .form-card h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 1.8rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.03em;
+    }
+    label .required {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--navy);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: middle;
+      letter-spacing: 0.05em;
+    }
+    label .optional {
+      display: inline-block;
+      background: #e5e7eb;
+      color: var(--muted);
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text);
+      background: #fafafa;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(245,194,0,0.2);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 160px;
+    }
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .privacy-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 1.8rem;
+    }
+    .privacy-check input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 3px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .privacy-check label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 400;
+      cursor: pointer;
+      margin-bottom: 0;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent);
+      color: var(--navy);
+      border: none;
+      border-radius: 10px;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      font-family: inherit;
+    }
+    .btn-submit:hover {
+      background: #e6b400;
+      box-shadow: 0 4px 16px rgba(245,194,0,0.4);
+    }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── Success / Error message ── */
+    .form-message {
+      display: none;
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 1.2rem;
+    }
+    .form-message.success {
+      display: block;
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      color: var(--success);
+    }
+    .form-message.error {
+      display: block;
+      background: #fef2f2;
+      border: 1.5px solid #fca5a5;
+      color: var(--error);
+    }
+
+    /* ── Info Card ── */
+    .info-card {
+      background: var(--navy);
+      border-radius: 16px;
+      padding: 2rem;
+      color: var(--white);
+      position: sticky;
+      top: 84px;
+    }
+    .info-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1.4rem;
+      letter-spacing: 0.06em;
+    }
+    .info-row {
+      margin-bottom: 1.4rem;
+      padding-bottom: 1.4rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .info-row:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .info-label {
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .info-value {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.7;
+    }
+    .info-note {
+      background: rgba(245,194,0,0.12);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 0.8rem 1rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.7;
+      margin-top: 1.4rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: #080f2a;
+      text-align: center;
+      padding: 24px 5%;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .info-card { position: static; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <a class="nav-logo" href="index.html">A.<span>K</span>ショップ</a>
+  <ul class="nav-links">
+    <li><a href="index.html#overview">事業概要</a></li>
+    <li><a href="index.html#business">事業内容</a></li>
+    <li><a href="index.html#philosophy">会社理念</a></li>
+    <li><a href="index.html#profile">代表プロフィール</a></li>
+    <li><a href="index.html#partners">主要取り扱いメーカー</a></li>
+    <li><a href="contact.html" class="active">お問い合わせ</a></li>
+  </ul>
+</nav>
+
+<!-- ── Page Header ── -->
+<div class="page-header">
+  <h1>お問い合わせ</h1>
+  <p>新規取引・仕入れに関するご相談はこちらからお気軽にどうぞ</p>
+  <div class="accent-bar"></div>
+</div>
+
+<!-- ── Main ── -->
+<main>
+  <div class="contact-grid">
+
+    <!-- Form -->
+    <div class="form-card">
+      <h2>お問い合わせフォーム</h2>
+      <form id="contactForm" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="company">会社名・屋号<span class="required">必須</span></label>
+            <input type="text" id="company" name="company" placeholder="例：株式会社〇〇" required>
+          </div>
+          <div class="form-group">
+            <label for="name">ご担当者名<span class="required">必須</span></label>
+            <input type="text" id="name" name="name" placeholder="例：田中 太郎" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">メールアドレス<span class="required">必須</span></label>
+            <input type="email" id="email" name="email" placeholder="例：info@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="tel">電話番号<span class="optional">任意</span></label>
+            <input type="tel" id="tel" name="tel" placeholder="例：0428-28-0978">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="type">お問い合わせ種別<span class="required">必須</span></label>
+          <select id="type" name="type" required>
+            <option value="" disabled selected>選択してください</option>
+            <option value="new">新規取引のご相談</option>
+            <option value="product">取り扱い商品について</option>
+            <option value="price">価格・条件のご確認</option>
+            <option value="amazon">Amazon販売に関するご相談</option>
+            <option value="other">その他</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">お問い合わせ内容<span class="required">必須</span></label>
+          <textarea id="message" name="message" placeholder="ご相談内容をできるだけ詳しくご記入ください。&#10;（例：取り扱いを希望している商品名、数量、ご希望条件など）" required></textarea>
+        </div>
+
+        <div class="privacy-check">
+          <input type="checkbox" id="privacy" required>
+          <label for="privacy">
+            個人情報の取り扱いについて同意します。いただいた情報はお問い合わせへの返答のみに使用し、第三者への提供は行いません。
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">送　信</button>
+
+        <div class="form-message success" id="successMsg">
+          ✓ お問い合わせを受け付けました。通常2〜3営業日以内にご返信いたします。
+        </div>
+        <div class="form-message error" id="errorMsg">
+          送信に失敗しました。お手数ですが電話またはメールにて直接お問い合わせください。
+        </div>
+      </form>
+    </div>
+
+    <!-- Info -->
+    <div class="info-card">
+      <h3>お問い合わせ先</h3>
+
+      <div class="info-row">
+        <div class="info-label">屋号</div>
+        <div class="info-value">A.Kショップ</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">代表者</div>
+        <div class="info-value">小林 敦貴</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">所在地</div>
+        <div class="info-value">〒198-0052<br>東京都青梅市長淵<br>2丁目814-1 102</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">電話番号</div>
+        <div class="info-value">0428-28-0978</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">メールアドレス</div>
+        <div class="info-value" style="word-break:break-all;">a.kobayashi@akshop0506.com</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">対応時間</div>
+        <div class="info-value">平日 9:00〜18:00</div>
+      </div>
+
+      <div class="info-note">
+        新規取引のご相談・Amazon販売に関するご質問など、お気軽にお問い合わせください。
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>&copy; 2024 A.Kショップ All Rights Reserved.</p>
+</footer>
+
+<script>
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successMsg = document.getElementById('successMsg');
+  const errorMsg = document.getElementById('errorMsg');
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // バリデーション
+    const required = form.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(el => {
+      if (el.type === 'checkbox' && !el.checked) valid = false;
+      else if (el.type !== 'checkbox' && !el.value.trim()) valid = false;
+    });
+    if (!valid) {
+      errorMsg.textContent = '必須項目をすべてご入力ください。';
+      errorMsg.style.display = 'block';
+      successMsg.style.display = 'none';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中...';
+    errorMsg.style.display = 'none';
+
+    const company = document.getElementById('company').value;
+    const name    = document.getElementById('name').value;
+    const email   = document.getElementById('email').value;
+    const tel     = document.getElementById('tel').value;
+    const typeEl  = document.getElementById('type');
+    const type    = typeEl.options[typeEl.selectedIndex].text;
+    const message = document.getElementById('message').value;
+
+    const subject = `【A.Kショップ お問い合わせ】${company}`;
+    const body =
+      `■ 会社名・屋号\n${company}\n\n` +
+      `■ ご担当者名\n${name}\n\n` +
+      `■ メールアドレス\n${email}\n\n` +
+      `■ 電話番号\n${tel || '未入力'}\n\n` +
+      `■ お問い合わせ種別\n${type}\n\n` +
+      `■ お問い合わせ内容\n${message}`;
+
+    window.location.href =
+      `mailto:a.kobayashi@akshop0506.com` +
+      `?subject=${encodeURIComponent(subject)}` +
+      `&body=${encodeURIComponent(body)}`;
+
+    form.reset();
+    successMsg.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = '送　信';
+  });
+</script>
+
+</body>
+</html>
